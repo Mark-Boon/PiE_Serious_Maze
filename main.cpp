@@ -1,3 +1,4 @@
+#include "player.h"
 #include "draw.h"
 
 #include <iostream>
@@ -6,21 +7,19 @@
 
 
 int main() {
-	Window canvas;
-	canvas.resize(20, 20);
 	
-	Player player;
-	int size = player.getfov()*2+1;
+	Player player(1,1,7);
+	int size = player.fov*2+1;
+	
 	std::vector<int> matrix(size*size, 1);
-	canvas.update(size, matrix);
 	
+	Window canvas;
+	canvas.resize(size, size);
 	
 	int i=1;
 	while(!GetAsyncKeyState(VK_ESCAPE)){
 		canvas.update(size, matrix);
-		matrix[1] = i%2;
-		i++;
-		Sleep(500);
+		Sleep(100);
 	}
 	
 	return 0;

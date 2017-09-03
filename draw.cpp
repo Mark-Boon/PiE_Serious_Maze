@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 void Window::resize(int width, int height){
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
@@ -12,12 +13,14 @@ void Window::resize(int width, int height){
 }
 
 void Window::update(int size, std::vector<int> &fovmatrix){
+	std::stringstream ss;
 	for (int i=0; i<fovmatrix.size(); i++){
 		if (i%size==0)
-			std::cout << std::endl;
+			ss << '\n';
 		if (fovmatrix[i])
-			std::cout << (char) 178 << (char) 178;
+			ss << (char) 178 << (char) 178;
 		else
-			std::cout << (char) 32 << (char) 32;
+			ss << (char) 32 << (char) 32;
 	}
+	std::cout << ss.str();
 }
