@@ -1,21 +1,16 @@
 #ifndef DRAW
 #define DRAW
 
+#include <windows.h>
+#include <iostream>
 #include <vector>
+#include <sstream>
+
 class Window {
 	int width, height;
 public:
-	void resize(int width, int height);
-	void update(int size, std::vector<int> &fovmatrix);
-};
-
-class Player{
-	int x=1, y=1;
-public:
-	int fov = 2;
-	int getx(){return x;}
-	int gety(){return y;}
-	int getfov(){return fov;}
+	void resize(int width, int height);	// resizes window
+	void update(int width, std::vector<int> &losmatrix); // updates screen with level info
 };
 
 #endif
