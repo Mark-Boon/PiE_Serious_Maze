@@ -3,7 +3,7 @@
 
 class Player{
 public:
-	int x, y, fov;
+	int x, y, los;
 	Player(int, int, int);
 };
 

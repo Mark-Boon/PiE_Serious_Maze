@@ -1,7 +1,7 @@
 #include "player.h"
 
-Player::Player(int x, int y, int fov){
+Player::Player(int x, int y, int los){
 	this->x = x;
 	this->y = y;
-	this->fov = fov;
+	this->los = los;
 }
