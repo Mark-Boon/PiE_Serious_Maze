@@ -24,7 +24,7 @@ void Window::update(int width, std::vector<int> &losmatrix){
 			ss << '\n';
 		if (i == width*width/2)					//This is the location of the player.
 			ss << (char) 120 << (char) 120;	
-		else if (losmatrix[i])
+		else if (losmatrix[i]==-1)
 			ss << (char) 178 << (char) 178;
 		else
 			ss << (char) 32 << (char) 32;

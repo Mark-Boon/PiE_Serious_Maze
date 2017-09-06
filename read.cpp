@@ -29,9 +29,9 @@ Level::Level(std::string filename){
 		char n;
 		int i=0;
 		while(file_maze>>n){
-			if (n=='x')
-				this->maze[i]=1;
-			else if (n=='o')
+			if (n=='#')
+				this->maze[i]=-1;
+			else if (n=='.')
 				this->maze[i]=0;
 		
 			i++;	
