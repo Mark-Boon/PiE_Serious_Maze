@@ -29,17 +29,16 @@ Level::Level(std::string filename){
 		char n;
 		int i=0;
 		while(file_maze>>n){
-			if (n=='1')
+			if (n=='x')
 				this->maze[i]=1;
-			else if (n=='0')
+			else if (n=='o')
 				this->maze[i]=0;
 		
 			i++;	
 		}
 		file_maze.close();
 	}else std::cout<<"Error opening file"<<std::endl;	
-}
-	
+}	
 
 
 	

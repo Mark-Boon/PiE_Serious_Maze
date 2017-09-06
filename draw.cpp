@@ -22,7 +22,9 @@ void Window::update(int width, std::vector<int> &losmatrix){
 	for (int i=0; i<losmatrix.size(); i++){
 		if (i%width==0 && i!=0)
 			ss << '\n';
-		if (losmatrix[i])
+		if (i == width*width/2)					//This is the location of the player.
+			ss << (char) 120 << (char) 120;	
+		else if (losmatrix[i])
 			ss << (char) 178 << (char) 178;
 		else
 			ss << (char) 32 << (char) 32;

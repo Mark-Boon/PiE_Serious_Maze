@@ -10,8 +10,8 @@
 int main() {
 	Level lvl1("lvl1.txt");
 	Level* lvl1p = &lvl1;
-	
-	Player player(1,1,7);
+
+	Player player(3,4,3);
 	int size = player.los*2+1;
 	
 	
@@ -22,6 +22,7 @@ int main() {
 	while(!GetAsyncKeyState(VK_ESCAPE)){
 		player.update_los_grid( lvl1p );
 		canvas.update(size, player.los_grid);
+		player.update_player_location();
 		Sleep(100);
 	}
 	
