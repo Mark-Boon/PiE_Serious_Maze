@@ -34,8 +34,8 @@ void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &co
 	}
 	
 	// Show collected numbers on the screen
-	ss << '\n' <<'\n';
-	ss << " Numbers collected:" << '\n'<<" ";
+
+	ss << "\n\n Numbers collected: \n ";
 	std::vector<int>::iterator it;
 	it = collected_numbers.begin();
 	while (it !=collected_numbers.end()){	// Loop through collected_numbers
