@@ -8,7 +8,7 @@
 
 
 int main() {
-	Level lvl1("lvl1.txt");
+	Level lvl1("lvl1.txt", 10);
 	Level* lvl1p = &lvl1;
 
 	Player player(3,4,3);

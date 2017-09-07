@@ -1,6 +1,6 @@
 #include "read.h"
 
-Level::Level(std::string filename){
+Level::Level(std::string filename, int ratio){
 // First part of the constructor: determine the dimensions of the level.
 	// Every object in 'Level' stores its given filename in member variable 'filename'.
 	this->filename = filename;
@@ -48,13 +48,15 @@ Level::Level(std::string filename){
 	}else std::cout<<"Error opening file"<<std::endl;
 	
 	// Generate numbers in maze with ratio to available spaces of 1/10
-	generate_numbers();
+	generate_numbers(ratio);
 }
 
-void Level::generate_numbers(){
+void Level::generate_numbers(int ratio){
+	// Generates seed for later use of rand()
 	srand(time(NULL));
-	// because this is an integer, it is rounded down
-	int nr_nr = this->spaces/10;
+	// Calculates number of numbers to be put in maze, because this is an integer, it is rounded down.
+	int nr_nr = this->spaces/ratio;
+	// rand()%10 generates a number on interval [0,9]
 	for (int i=0; i<nr_nr; i++){
 		int pos = rand()%(this->height*this->width);
 		while(this->maze[pos]!=0){
