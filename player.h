@@ -9,7 +9,10 @@ class Player{
 public:
 	// Player has x and y position and a line of sight (los)
 	int x, y, los;
-	std::vector<int> los_grid;			// (los_grid stands for 'line of sight grid' and is the part of the maze that is actually visible for the player)
+	// los_grid stands for 'line of sight grid' and is the part of the maze that is actually visible for the player
+	std::vector<int> los_grid;
+	// Keeps track of numbers collected in maze
+	std::vector<int> collected_numbers;
 	Player(int x, int y, int los);
 	
 	// Calculates visible cells surrounding player
