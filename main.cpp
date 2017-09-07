@@ -16,7 +16,7 @@ int main() {
 	
 	Window canvas;
 	canvas.resize(size, size);
-	
+
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
@@ -28,7 +28,7 @@ int main() {
 		else if(GetAsyncKeyState(VK_RIGHT)) player.go_right();
 		
 		player.update_los_grid( lvl1p );
-		canvas.update(size, player.los_grid);
+		canvas.update(size, player.los_grid, player.collected_numbers);
 		
 		while(GetTickCount()-time <80 ){}
 	}
