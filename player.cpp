@@ -17,7 +17,7 @@ void Player::update_los_grid(Level* levelobject){
 			int x = this->x-this->los+j;	// 'x_player - los' to get to the left edge of the los_grid, '+j' to loop from left to right.
 			int y = this->y-this->los+i;	// Same here but then for y coordinate.
 			if(x<0 || y<0 || x>=levelobject->width || y>=levelobject->height)	// This is outside of the maze (occurs at the edges of the maze).
-				this->los_grid[size*i+j] = 0;
+				this->los_grid[size*i+j] = -2;
 			else
 				this->los_grid[size*i+j] = levelobject->maze[y*levelobject->width+x];	// else copy the value of the maze at that coordinate.
 		}
