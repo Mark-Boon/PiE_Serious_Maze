@@ -17,20 +17,34 @@ void Window::resize(int width, int height){
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
-void Window::update(int width, std::vector<int> &losmatrix){
+void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
 	std::stringstream ss;
+	
+	// Show the line of sight matrix of the player
 	for (int i=0; i<losmatrix.size(); i++){
 		if (i%width==0 && i!=0)
 			ss << '\n';
-		if (i == width*width/2)					//This is the location of the player.
+		if (i == width*width/2)					// This is the location of the player.
 			ss << (char) 120 << (char) 120;	
 		else if (losmatrix[i]==-1)
 			ss << (char) 178 << (char) 178;
-		else
+		else if (losmatrix[i]==0)
 			ss << (char) 32 << (char) 32;
+		else ss << (char) 32 << losmatrix[i];	// This copies the numbers that need to be collected.
 	}
+	
+	// Show collected numbers on the screen
+
+	ss << "\n\n Numbers collected: \n ";
+	std::vector<int>::iterator it;
+	it = collected_numbers.begin();
+	while (it !=collected_numbers.end()){	// Loop through collected_numbers
+		ss << *it << " ";
+		++it;
+	}
+	
 	// Fill screen up with newlines
-	for (int i=0; i<= (this->height-width-1); i++)
+	for (int i=0; i<= (this->height-width-4); i++)
 		ss << '\n';
 	std::cout << ss.str();
 }

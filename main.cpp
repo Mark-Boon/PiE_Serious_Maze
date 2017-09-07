@@ -17,7 +17,7 @@ int main() {
 	
 	Window canvas;
 	canvas.resize(size, size);
-	
+
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
@@ -30,8 +30,8 @@ int main() {
 		player.check_collision(lvlp);
 		
 		player.update_los_grid( lvlp );
-		canvas.update(size, player.los_grid);
-		
+		canvas.update(size, player.los_grid, player.collected_numbers);
+    
 		while(GetTickCount()-time <80 ){}
 	}
 	
