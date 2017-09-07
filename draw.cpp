@@ -10,6 +10,10 @@ Window::Window(){
 	*/
 	this->width = 50;
 	this->height = 30;
+	this->menu_items.push_back("Level 1");
+	this->menu_items.push_back("Level 2");
+	this->menu_items.push_back("Level 3");
+	this->menu_items.push_back("Quit");
 	
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
@@ -62,6 +66,23 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	int bot_margin = this->height-this->width/2  - 2;
 	temp.clear();
 	temp.append<int>(bot_margin, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
+}
+
+void Window::draw_title(){
+	std::stringstream ss;
+	std::string temp;
+	
+	ss << "\n\t\t \"Serious\" Maze\n\n";
+	std::vector<std::string>::iterator it = this->menu_items.begin();
+	while(it!=this->menu_items.end()){
+		ss << "\t" << *it << "\n";
+		it++;
+	}
+	int margin_bot = this->height-3-this->menu_items.size();
+	temp.append<int>(margin_bot, '\n');
 	ss << temp;
 	
 	std::cout << ss.str();
