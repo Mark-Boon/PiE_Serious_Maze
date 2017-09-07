@@ -1,7 +1,7 @@
 #include "draw.h"
 
 
-void Window::resize(int width, int height){
+Window::Window(){
 	/* TODO
 	std::stringstream ss;
 	ss << "mode " << 40 << "," << 20;
@@ -10,19 +10,19 @@ void Window::resize(int width, int height){
 	*/
 	this->width = 50;
 	this->height = 30;
-
+	
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
   	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
-void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
 	std::stringstream ss;
 	std::string temp;
 	
 	// Margin top
-	int top_margin = (this->width/2-width)/2;;
+	int top_margin = (this->width/2-width)/2;
 	temp.append<int>(top_margin, '\n');
 	ss << temp;
 	
