@@ -15,8 +15,12 @@ public:
 	// Calculates visible cells surrounding player
 	void update_los_grid(Level* levelobject);
 	
-	// Updates the location of the player after a move button has been pressed.	
-	void update_player_location();
+	// Updates the location of the player
+	void go_up();
+	void go_down();
+	void go_left();
+	void go_right();
+
 
 };
 
