@@ -1,10 +1,10 @@
 #include "player.h"
 
-Player::Player(int x, int y, int los){
+Player::Player(int x, int y, int los, Level* lvlp){
 	this->x = x;
 	this->y = y;
 	this->los = los;
-	//this->update_los_grid();
+	this->update_los_grid( lvlp );
 }
 
 void Player::update_los_grid(Level* levelobject){
@@ -26,28 +26,40 @@ void Player::update_los_grid(Level* levelobject){
 
 void Player::go_up(){
 	int size = this->los*2+1;
-	if (this->los_grid[size*size/2-size]==0){
+	if (this->los_grid[size*size/2-size]!=-1){
 		this->y = y-1;
 	}
 }
 
 void Player::go_down(){
 	int size = this->los*2+1;
-	if (this->los_grid[size*size/2+size]==0){
+	if (this->los_grid[size*size/2+size]!=-1){
 		this->y = y+1;
 	}
 }
 
 void Player::go_left(){
 	int size = this->los*2+1;
-	if (this->los_grid[size*size/2-1]==0){
+	if (this->los_grid[size*size/2-1]!=-1){
 		this->x = x-1;
 	}
 }
 
 void Player::go_right(){
 	int size = this->los*2+1;
-	if (this->los_grid[size*size/2+1]==0){
+	if (this->los_grid[size*size/2+1]!=-1){
 		this->x = x+1;
+	}
+}
+
+void Player::check_collision(Level* lvlp){
+	// Location of player in los_grid (always middle)
+	int loc = this->los * (this->los*2+1) + this->los + 1;
+	// Location of player in maze
+	int loc_maze = lvlp->height * this->y + this->x;
+	// If player is not on empty (0) cell
+	if(this->los_grid[1] !=0 ){
+		this->collected_numbers.push_back(this->los_grid[loc]);
+		lvlp->maze[loc_maze] = 0;
 	}
 }
