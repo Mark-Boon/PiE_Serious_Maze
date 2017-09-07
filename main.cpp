@@ -27,7 +27,7 @@ int main() {
 		else if(GetAsyncKeyState(VK_DOWN)) player.go_down();
 		else if(GetAsyncKeyState(VK_LEFT)) player.go_left();
 		else if(GetAsyncKeyState(VK_RIGHT)) player.go_right();
-		player.check_collision();
+		player.check_collision(lvlp);
 		
 		player.update_los_grid( lvlp );
 		canvas.update(size, player.los_grid);

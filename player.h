@@ -13,6 +13,7 @@ public:
 	std::vector<int> los_grid;
 	// Keeps track of numbers collected in maze
 	std::vector<int> collected_numbers;
+	Level* lvlp;
 	Player(int x, int y, int los, Level* lvlp);
 	
 	// Calculates visible cells surrounding player
@@ -23,7 +24,7 @@ public:
 	void go_down();
 	void go_left();
 	void go_right();
-	void check_collision();
+	void check_collision(Level* lvlp);
 
 };
 
