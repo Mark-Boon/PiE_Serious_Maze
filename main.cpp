@@ -33,6 +33,9 @@ int main() {
 		canvas.update(size, player.los_grid, player.collected_numbers);
     
 		while(GetTickCount()-time <80 ){}
+		// **Snelle test**
+		if (GetAsyncKeyState(VK_RSHIFT))
+    			canvas.calc_screen(player.collected_numbers);
 	}
 	
 	return 0;

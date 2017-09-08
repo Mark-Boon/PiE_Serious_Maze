@@ -68,3 +68,41 @@ void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &co
 	
 	std::cout << ss.str();
 }
+
+void Window::calc_screen(std::vector<int> &collected_numbers){
+	int n;
+	int search;
+	std::stringstream ss;
+	// Introduction to next phase of the game
+	ss << "\nCalculation screen \n\n";
+	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
+	
+	// Show collected numbers and possible operators on the screen
+	std::vector<int>::iterator it;
+	it = collected_numbers.begin();
+	ss<<"Numbers to choose from:\n";
+	// Loop through collected_numbers
+	while (it !=collected_numbers.end()){	
+		ss << *it << "  "; 
+		++it;
+	}
+	ss<<"\n\nOperators:\n";
+	ss<<"+\t-\t*\t/\n\n";
+	/*
+	// Ask for an integer input and check if it's collected
+	ss<<"Please give one of the numbers that you collected:\n";
+	std::cin>>n;
+	std::vector<int> temp = collected_numbers;
+	temp.push_back(0);
+	search = std::find (temp.begin(), temp.end(), n);
+	
+	cout<<n;
+	//if (search==0)
+		*/
+	
+	for (int i=0; i<11; i++)
+		ss<<'\n';
+	
+	std::cout << ss.str();
+	system("PAUSE");
+}
