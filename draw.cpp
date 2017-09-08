@@ -8,12 +8,12 @@ void Window::resize(int width, int height){
 	const char* temp = ss.str().c_str();
 	std::cout << temp;
 	*/
-	this->width = 25;
-	this->height = 30;
+	this->width = 20;
+	this->height = 25;
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
-	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
-  	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
+	system("mode 40,25");   //Set mode to ensure window does not exceed buffer size
+  	SMALL_RECT WinRect = {0, 0, 40, 25};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
