@@ -10,6 +10,7 @@ Window::Window(){
 	*/
 	this->width = 50;
 	this->height = 30;
+	this->menu_selected_item = 0;
 	this->menu_items.push_back("Level 1");
 	this->menu_items.push_back("Level 2");
 	this->menu_items.push_back("Level 3");
@@ -19,6 +20,46 @@ Window::Window(){
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
   	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
+}
+
+void Window::menu_down(){
+	if(this->menu_selected_item == this->menu_items.size()-1)
+		this->menu_selected_item = 0;
+	else
+		this->menu_selected_item++;
+}
+
+void Window::menu_up(){
+	if(this->menu_selected_item == 0)
+		this->menu_selected_item = this->menu_items.size()-1;
+	else
+		this->menu_selected_item--;
+}
+
+std::string Window::menu_get_name_selected(){
+	return this->menu_items[this->menu_selected_item];
+}
+
+void Window::draw_title(){
+	std::stringstream ss;
+	std::string temp;
+	
+	ss << "\n\t\t \"Serious\" Maze\n\n";
+	std::vector<std::string>::iterator it = this->menu_items.begin();
+	while(it!=this->menu_items.end()){
+		// If this item is selected, draw arrow
+		if (it - this->menu_items.begin() == this->menu_selected_item)
+			ss << "\t-->";
+		else
+			ss << " \t ";
+		ss << *it << "\n";
+		it++;
+	}
+	int margin_bot = this->height-3-this->menu_items.size();
+	temp.append<int>(margin_bot, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
 }
 
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
@@ -66,23 +107,6 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	int bot_margin = this->height-this->width/2  - 2;
 	temp.clear();
 	temp.append<int>(bot_margin, '\n');
-	ss << temp;
-	
-	std::cout << ss.str();
-}
-
-void Window::draw_title(){
-	std::stringstream ss;
-	std::string temp;
-	
-	ss << "\n\t\t \"Serious\" Maze\n\n";
-	std::vector<std::string>::iterator it = this->menu_items.begin();
-	while(it!=this->menu_items.end()){
-		ss << "\t" << *it << "\n";
-		it++;
-	}
-	int margin_bot = this->height-3-this->menu_items.size();
-	temp.append<int>(margin_bot, '\n');
 	ss << temp;
 	
 	std::cout << ss.str();

@@ -12,22 +12,38 @@ int main() {
 	int frameduration = 80;
 	Window* canvas = new Window;
 	
-	while(!GetAsyncKeyState(VK_ESCAPE)){
+	bool running = true;
+	while(running){
 		int time = GetTickCount();
+		
+		if(GetAsyncKeyState(VK_ESCAPE)){
+			running = false;
+		}else if(GetAsyncKeyState(VK_DOWN)){
+			canvas->menu_down();
+		}else if(GetAsyncKeyState(VK_UP)){
+			canvas->menu_up();
+		}else if(GetAsyncKeyState(VK_RETURN)){
+			std::string temp = canvas->menu_get_name_selected();
+			if(temp == "Quit"){
+				running = false;
+			}else {
+				std::string filename = "lvl";
+				filename += temp[6];
+				filename += ".txt";
+				// level(filename, ratio nr generation)
+				Level* lvl = new Level(filename , 5);
+				// player(begin x, begin y, LOS, pointer to level)
+				Player* player = new Player(1,1,8,lvl);
+				loop_maze(canvas, lvl, player, frameduration);
+				Sleep(200);
+			}
+		}
 		
 		canvas->draw_title();
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
 	
-	Level* lvl = new Level("lvl2.txt", 5);
-	
-	// player(begin x, begin y, LOS, pointer to level)
-	Player* player = new Player(3,4,3,lvl);
-	
-	loop_maze(canvas, lvl, player, frameduration);
-	HWND hWnd;
-	PostMessage(hWnd, WM_CLOSE, 0, 0);
 	return 0;
 }
 
