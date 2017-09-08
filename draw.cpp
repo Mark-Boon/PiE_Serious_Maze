@@ -1,15 +1,20 @@
 #include "draw.h"
 
 
-void Window::resize(int width, int height){
+Window::Window(){
 	/* TODO
 	std::stringstream ss;
 	ss << "mode " << 40 << "," << 20;
 	const char* temp = ss.str().c_str();
 	std::cout << temp;
 	*/
-	this->width = 20;
-	this->height = 25;
+	this->width = 50;
+	this->height = 30;
+	this->menu_selected_item = 0;
+	this->menu_items.push_back("Level 1");
+	this->menu_items.push_back("Level 2");
+	this->menu_items.push_back("Level 3");
+	this->menu_items.push_back("Quit");
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 40,25");   //Set mode to ensure window does not exceed buffer size
@@ -17,13 +22,58 @@ void Window::resize(int width, int height){
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
-void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+void Window::menu_down(){
+	if(this->menu_selected_item == this->menu_items.size()-1)
+		this->menu_selected_item = 0;
+	else
+		this->menu_selected_item++;
+}
+
+void Window::menu_up(){
+	if(this->menu_selected_item == 0)
+		this->menu_selected_item = this->menu_items.size()-1;
+	else
+		this->menu_selected_item--;
+}
+
+std::string Window::menu_get_name_selected(){
+	return this->menu_items[this->menu_selected_item];
+}
+
+void Window::draw_title(){
 	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
+	ss << "\n\t\t \"Serious\" Maze\n\n";
+	std::vector<std::string>::iterator it = this->menu_items.begin();
+	while(it!=this->menu_items.end()){
+		// If this item is selected, draw arrow
+		if (it - this->menu_items.begin() == this->menu_selected_item)
+			ss << "\t-->";
+		else
+			ss << "\t   ";
+		ss << *it << "\n";
+		it++;
+	}
+	// Fill screen with newline characters
+	int margin_bot = this->height-3-this->menu_items.size();
+	temp.append<int>(margin_bot, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
+}
+
+void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+
+system("cls");
+	std::stringstream ss;
+	std::string temp;
+	
 	// Margin top
-	int top_margin = (this->width - width)/2;
+
+	int top_margin = (this->width/2-width)/2;
+
 	// Appends an integer (top_margin) times the character given.
 	temp.append<int>(top_margin, '\n');
 	ss << temp;

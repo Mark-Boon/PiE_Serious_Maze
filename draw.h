@@ -9,9 +9,15 @@
 class Window {
 	// This is the width in characters, 1 width = 2 characters, height is just height
 	int width, height;
+	std::vector<std::string> menu_items;
+	int menu_selected_item;
 public:
-	void resize(int width, int height);	// resizes window in character dimensions
-	void update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers); // draws the level on screen (losmatrix)
+	Window();	// resizes window
+	void menu_down();
+	void menu_up();
+	std::string menu_get_name_selected();
+	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers); // draws the level on screen (losmatrix)
+	void draw_title();
 };
 
 #endif

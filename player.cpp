@@ -55,6 +55,7 @@ void Player::go_right(){
 void Player::check_collision(Level* lvlp){
 	// Location of player in los_grid (size*size/2 is middle of los_grid)
 	int loc = (this->los*2+1)*(this->los*2+1)/2;
+
 	// Location of player in maze
 	int loc_maze = lvlp->width * this->y + this->x;
 	// If player is not on empty (0) cell
