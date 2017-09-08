@@ -18,6 +18,7 @@ void Window::resize(int width, int height){
 }
 
 void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
