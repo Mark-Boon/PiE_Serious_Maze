@@ -8,7 +8,7 @@ void Window::resize(int width, int height){
 	const char* temp = ss.str().c_str();
 	std::cout << temp;
 	*/
-	this->width = 50;
+	this->width = 25;
 	this->height = 30;
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
@@ -19,23 +19,40 @@ void Window::resize(int width, int height){
 
 void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
 	std::stringstream ss;
+	std::string temp;
 	
+	// Margin top
+	int top_margin = (this->width - width)/2;
+	// Appends an integer (top_margin) times the character given.
+	temp.append<int>(top_margin, '\n');
+	ss << temp;
+	
+	// Calculate size of margin
+	int size_margin = this->width - width;
+	temp.clear();
+	temp.append<int>(size_margin, ' ');
 	// Show the line of sight matrix of the player
 	for (int i=0; i<losmatrix.size(); i++){
-		if (i%width==0 && i!=0)
-			ss << '\n';
+		if (i%width==0)
+			ss << '\n' << temp;
 		if (i == width*width/2)					// This is the location of the player.
-			ss << (char) 120 << (char) 120;	
+			ss << (char) 218 << (char) 191;	
+		else if (losmatrix[i]==-2)
+			ss << (char) 177 << (char) 177;
 		else if (losmatrix[i]==-1)
-			ss << (char) 178 << (char) 178;
+			ss << (char) 219 << (char) 219;
 		else if (losmatrix[i]==0)
 			ss << (char) 32 << (char) 32;
 		else ss << (char) 32 << losmatrix[i];	// This copies the numbers that need to be collected.
 	}
 	
+	// Fill below los_grid untill text
+	temp.clear();
+	temp.append<int>(top_margin, '\n');
+	ss << temp;
+	
 	// Show collected numbers on the screen
-
-	ss << "\n\n Numbers collected: \n ";
+	ss << "\n Numbers collected: \n ";
 	std::vector<int>::iterator it;
 	it = collected_numbers.begin();
 	while (it !=collected_numbers.end()){	// Loop through collected_numbers
@@ -44,7 +61,10 @@ void Window::update(int width, std::vector<int> &losmatrix, std::vector<int> &co
 	}
 	
 	// Fill screen up with newlines
-	for (int i=0; i<= (this->height-width-4); i++)
-		ss << '\n';
+	int bot_margin = this->height - this->width  - 2;
+	temp.clear();
+	temp.append<int>(bot_margin, '\n');
+	ss << temp;
+	
 	std::cout << ss.str();
 }

@@ -7,6 +7,7 @@
 #include <sstream>
 
 class Window {
+	// This is the width in characters, 1 width = 2 characters, height is just height
 	int width, height;
 public:
 	void resize(int width, int height);	// resizes window in character dimensions
