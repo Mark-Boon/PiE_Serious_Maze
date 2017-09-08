@@ -51,10 +51,11 @@ void Window::draw_title(){
 		if (it - this->menu_items.begin() == this->menu_selected_item)
 			ss << "\t-->";
 		else
-			ss << " \t ";
+			ss << "\t   ";
 		ss << *it << "\n";
 		it++;
 	}
+	// Fill screen with newline characters
 	int margin_bot = this->height-3-this->menu_items.size();
 	temp.append<int>(margin_bot, '\n');
 	ss << temp;

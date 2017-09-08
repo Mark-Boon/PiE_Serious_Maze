@@ -27,6 +27,7 @@ int main() {
 			if(temp == "Quit"){
 				running = false;
 			}else {
+				// Create filename string of selected level
 				std::string filename = "lvl";
 				filename += temp[6];
 				filename += ".txt";
@@ -34,7 +35,9 @@ int main() {
 				Level* lvl = new Level(filename , 5);
 				// player(begin x, begin y, LOS, pointer to level)
 				Player* player = new Player(1,1,8,lvl);
+				// Open level loop
 				loop_maze(canvas, lvl, player, frameduration);
+				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
 				Sleep(200);
 			}
 		}
