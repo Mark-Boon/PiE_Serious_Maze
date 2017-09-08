@@ -15,10 +15,10 @@ Window::Window(){
 	this->menu_items.push_back("Level 2");
 	this->menu_items.push_back("Level 3");
 	this->menu_items.push_back("Quit");
-	
+
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
-	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
-  	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
+	system("mode 40,25");   //Set mode to ensure window does not exceed buffer size
+  	SMALL_RECT WinRect = {0, 0, 40, 25};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
@@ -65,17 +65,21 @@ void Window::draw_title(){
 }
 
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
-	system("cls");
+
+system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
 	// Margin top
+
 	int top_margin = (this->width/2-width)/2;
+
+	// Appends an integer (top_margin) times the character given.
 	temp.append<int>(top_margin, '\n');
 	ss << temp;
 	
-	// Calculate size of margin, result is rounded down because it's an integer
-	int size_margin = (this->width/2 - width);
+	// Calculate size of margin
+	int size_margin = this->width - width;
 	temp.clear();
 	temp.append<int>(size_margin, ' ');
 	// Show the line of sight matrix of the player
@@ -93,6 +97,7 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 		else ss << (char) 32 << losmatrix[i];	// This copies the numbers that need to be collected.
 	}
 	
+	// Fill below los_grid untill text
 	temp.clear();
 	temp.append<int>(top_margin, '\n');
 	ss << temp;
@@ -107,7 +112,7 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	}
 	
 	// Fill screen up with newlines
-	int bot_margin = this->height-this->width/2  - 2;
+	int bot_margin = this->height - this->width  - 2;
 	temp.clear();
 	temp.append<int>(bot_margin, '\n');
 	ss << temp;
