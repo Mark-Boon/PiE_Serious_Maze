@@ -41,6 +41,7 @@ std::string Window::menu_get_name_selected(){
 }
 
 void Window::draw_title(){
+	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
@@ -64,6 +65,7 @@ void Window::draw_title(){
 }
 
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
