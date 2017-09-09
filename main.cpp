@@ -61,8 +61,9 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		else if(GetAsyncKeyState(VK_DOWN)) player->go_down();
 		else if(GetAsyncKeyState(VK_LEFT)) player->go_left();
 		else if(GetAsyncKeyState(VK_RIGHT)) player->go_right();
-		player->check_collision(lvl);
+		
 		player->update_los_grid(lvl);
+		player->check_collision(lvl);
 		canvas->draw_maze(size, player->los_grid, player->collected_numbers);
 		
 		while(GetTickCount()-time <frameduration ){}
