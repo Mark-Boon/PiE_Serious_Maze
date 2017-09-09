@@ -8,7 +8,7 @@ Window::Window(){
 	const char* temp = ss.str().c_str();
 	std::cout << temp;
 	*/
-	this->width = 50;
+	this->width = 25;
 	this->height = 30;
 	this->menu_selected_item = 0;
 	this->menu_items.push_back("Level 1");
@@ -17,8 +17,8 @@ Window::Window(){
 	this->menu_items.push_back("Quit");
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
-	system("mode 40,25");   //Set mode to ensure window does not exceed buffer size
-  	SMALL_RECT WinRect = {0, 0, 40, 25};   //New dimensions for window in 8x12 pixel chars
+	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
+  	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
 
@@ -45,7 +45,7 @@ void Window::draw_title(){
 	std::stringstream ss;
 	std::string temp;
 	
-	ss << "\n\t\t \"Serious\" Maze\n\n";
+	ss << "\n\t\t\"Serious\" Maze\n\n";
 	std::vector<std::string>::iterator it = this->menu_items.begin();
 	while(it!=this->menu_items.end()){
 		// If this item is selected, draw arrow
@@ -65,14 +65,13 @@ void Window::draw_title(){
 }
 
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
-
-system("cls");
+	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
 	// Margin top
 
-	int top_margin = (this->width/2-width)/2;
+	int top_margin = (this->width-width)/2;
 
 	// Appends an integer (top_margin) times the character given.
 	temp.append<int>(top_margin, '\n');
