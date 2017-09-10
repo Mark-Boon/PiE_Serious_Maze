@@ -21,7 +21,7 @@ Window::Window(){
   	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
-
+// Menu screen functions:
 void Window::menu_down(){
 	if(this->menu_selected_item == this->menu_items.size()-1)
 		this->menu_selected_item = 0;
@@ -63,7 +63,7 @@ void Window::draw_title(){
 	
 	std::cout << ss.str();
 }
-
+// Maze screen function:
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
 	system("cls");
 	std::stringstream ss;
@@ -118,3 +118,49 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	
 	std::cout << ss.str();
 }
+
+// Calculation screen functions:
+void Window::calc_left(std::vector<int> &collected_numbers){
+	if(this->calc_selected_item == 0)
+		this->calc_selected_item = collected_numbers.size()-1;
+	else
+		this->calc_selected_item--;
+}
+
+void Window::calc_right(std::vector<int> &collected_numbers){
+	if(this->calc_selected_item == collected_numbers.size()-1)
+		this->calc_selected_item = 0;
+	else
+		this->calc_selected_item++;	
+}
+
+int Window::calc_get_char(std::vector<int> &collected_numbers){
+	return collected_numbers[this->calc_selected_item];
+}
+
+void Window::draw_calc_screen(std::vector<int> collected_numbers){
+	system("cls");
+	std::stringstream ss;
+	std::string temp;
+	
+	ss << "\nCalculation screen \n\n";
+	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
+	
+	std::vector<int>::iterator it = collected_numbers.begin();
+	while(it!=collected_numbers.end()){
+		// If this item is selected, draw arrow
+		if (it - collected_numbers.begin() == this->calc_selected_item)
+			ss << " -->";
+		else
+			ss << "    ";
+		ss << *it;
+		it++;
+	}
+	// Fill screen with newline characters
+	int margin_bot = this->height-3-this->menu_items.size();
+	temp.append<int>(margin_bot, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
+}
+

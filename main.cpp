@@ -6,7 +6,8 @@
 #include <windows.h>
 #include <vector>
 
-void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
+std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
+void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration);
 
 int main() {
 	int frameduration = 80;
@@ -36,9 +37,14 @@ int main() {
 				// player(begin x, begin y, LOS, pointer to level)
 				Player* player = new Player(1,1,8,lvl);
 				// Open level loop
-				loop_maze(canvas, lvl, player, frameduration);
+				std::vector<int>numbers = loop_maze(canvas, lvl, player, frameduration);
+				if (numbers[0] == 0)
+					return 0;
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
 				Sleep(200);
+				
+				// *** Hier iets met calc_screen
+				calc_screen(canvas, numbers, frameduration);
 			}
 		}
 		
@@ -50,17 +56,19 @@ int main() {
 	return 0;
 }
 
-void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
+std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 	int size = player->los*2+1;
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
 		
-		if(GetAsyncKeyState(VK_ESCAPE)) {running = false; break;}
+		// When the player wants to quit abruptly, 'esc' can be used (0 in output vector will stop the game).
+		if(GetAsyncKeyState(VK_ESCAPE)) {return {0};}    
 		else if(GetAsyncKeyState(VK_UP)) player->go_up();
 		else if(GetAsyncKeyState(VK_DOWN)) player->go_down();
 		else if(GetAsyncKeyState(VK_LEFT)) player->go_left();
 		else if(GetAsyncKeyState(VK_RIGHT)) player->go_right();
+		else if(GetAsyncKeyState(VK_RSHIFT)) return player->collected_numbers;
 		
 		player->update_los_grid(lvl);
 		player->check_collision(lvl);
@@ -68,5 +76,24 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
-	
+	return player->collected_numbers;
+}
+
+void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration){
+
+	bool running = true;
+	while(running){
+		int time = GetTickCount();
+		// The actual calculation screen loop
+		canvas->draw_calc_screen(collected_numbers);
+				
+		if(GetAsyncKeyState(VK_ESCAPE)){
+			running = false;
+		}else if(GetAsyncKeyState(VK_LEFT)){
+			canvas->calc_left(collected_numbers);
+		}else if(GetAsyncKeyState(VK_RIGHT))
+			canvas->calc_right(collected_numbers);
+		
+		while(GetTickCount()-time <frameduration ){}	
+	}
 }
