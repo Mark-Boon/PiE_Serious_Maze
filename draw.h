@@ -29,7 +29,7 @@ public:
 	void calc_right(std::vector<int> &collected_numbers);
 	int calc_get_char(std::vector<int> &collected_numbers);
 	void draw_calc_screen(std::vector<int> collected_numbers);
-	
+
 };
 
 #endif

@@ -164,3 +164,4 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers){
 	std::cout << ss.str();
 }
 
+

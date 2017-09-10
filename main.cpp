@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <vector>
 
+// Two game loops defined in main, one for the maze and one for the calculation screen:
 std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
 void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration);
 
@@ -38,7 +39,9 @@ int main() {
 				Player* player = new Player(1,1,8,lvl);
 				// Open level loop
 				std::vector<int>numbers = loop_maze(canvas, lvl, player, frameduration);
-				if (numbers[0] == 0)
+				if (numbers.empty() == 1)
+					return 0;
+				else if (numbers[0] == 0)
 					return 0;
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
 				Sleep(200);
@@ -80,20 +83,25 @@ std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frame
 }
 
 void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration){
-
+	std::vector<std::string> calculation;
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
-		// The actual calculation screen loop
+		bool pick_number = false;
+		
+		// First one needs to pick a number
+
+			// The actual screen
 		canvas->draw_calc_screen(collected_numbers);
-				
 		if(GetAsyncKeyState(VK_ESCAPE)){
 			running = false;
 		}else if(GetAsyncKeyState(VK_LEFT)){
 			canvas->calc_left(collected_numbers);
 		}else if(GetAsyncKeyState(VK_RIGHT))
 			canvas->calc_right(collected_numbers);
-		
+		//else if (GetAsyncKeyState(VK_RSHIFT)) 
+			// Select something ...
+
 		while(GetTickCount()-time <frameduration ){}	
 	}
 }
