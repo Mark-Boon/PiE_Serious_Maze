@@ -16,7 +16,7 @@ Window::Window(){
 	this->menu_items.push_back("Level 3");
 	this->menu_items.push_back("Quit");
 	this->calc_selected_item = 0;
-
+	
 	this->calc_items.push_back('+');
 	this->calc_items.push_back('-');
 	this->calc_items.push_back('*');
@@ -27,21 +27,7 @@ Window::Window(){
   	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
 }
-// Menu screen functions:
-void Window::menu_down(){
-	if(this->menu_selected_item == this->menu_items.size()-1)
-		this->menu_selected_item = 0;
-	else
-		this->menu_selected_item++;
-}
-
-void Window::menu_up(){
-	if(this->menu_selected_item == 0)
-		this->menu_selected_item = this->menu_items.size()-1;
-	else
-		this->menu_selected_item--;
-}
-
+// Menu screen function: (OMZETTEN NAAR TEMPLATE?)
 std::string Window::menu_get_name_selected(){
 	return this->menu_items[this->menu_selected_item];
 }
@@ -102,7 +88,7 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 		else ss << (char) 32 << losmatrix[i];	// This copies the numbers that need to be collected.
 	}
 	
-	// Fill below los_grid untill text
+	// Fill below los_grid until text
 	temp.clear();
 	temp.append<int>(top_margin, '\n');
 	ss << temp;
@@ -126,20 +112,6 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 }
 
 // Calculation screen functions:
-void Window::calc_left(std::vector<int> &collected_numbers){
-	if(this->calc_selected_item == 0)
-		this->calc_selected_item = collected_numbers.size()-1;
-	else
-		this->calc_selected_item--;
-}
-
-void Window::calc_right(std::vector<int> &collected_numbers){
-	if(this->calc_selected_item == collected_numbers.size()-1)
-		this->calc_selected_item = 0;
-	else
-		this->calc_selected_item++;	
-}
-
 int Window::calc_get_char(std::vector<int> &collected_numbers){
 	return collected_numbers[this->calc_selected_item];
 }
@@ -199,4 +171,6 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 	
 	std::cout << ss.str();
 }
+
+
 

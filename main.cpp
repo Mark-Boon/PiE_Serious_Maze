@@ -19,13 +19,13 @@ int main() {
 	while(running){
 		int time = GetTickCount();
 		
-		if(GetAsyncKeyState(VK_ESCAPE)){
+		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000){
 			running = false;
-		}else if(GetAsyncKeyState(VK_DOWN)){
-			canvas->menu_down();
-		}else if(GetAsyncKeyState(VK_UP)){
-			canvas->menu_up();
-		}else if(GetAsyncKeyState(VK_RETURN)){
+		}else if(GetAsyncKeyState(VK_DOWN) & 0x8000){
+			canvas->next(canvas->menu_selected_item, canvas->menu_items);		//canvas->menu_down();
+		}else if(GetAsyncKeyState(VK_UP) & 0x8000){
+			canvas->previous(canvas->menu_selected_item, canvas->menu_items);		//canvas->menu_up();
+		}else if(GetAsyncKeyState(VK_RETURN) & 0x8000){
 			std::string temp = canvas->menu_get_name_selected();
 			if(temp == "Quit"){
 				running = false;
@@ -40,12 +40,15 @@ int main() {
 				Player* player = new Player(1,1,8,lvl);
 				// Open level loop
 				numbers = loop_maze(canvas, lvl, player, frameduration);
-				if (numbers.empty() == 1)
-					return 0;
-				else if (numbers[0] == 0)
+				if (numbers.empty() || numbers[0] == 0)
 					return 0;
 				else
 					running = false;
+				std::vector<char> calculation;
+				//int time = GetTickCount();
+				// *** Hier iets met calc_screen	
+				pick_number(canvas, numbers, frameduration, calculation);	
+		
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
 				Sleep(200);			
 			}
@@ -55,7 +58,7 @@ int main() {
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
-	running = true;
+/*	running = true;
 	// End-game while loop
 	while (running){
 		std::vector<char> calculation;
@@ -64,7 +67,7 @@ int main() {
 		pick_number(canvas, numbers, frameduration, calculation);	
 		
 		
-	}
+	}*/
 	return 0;
 }
 
@@ -75,12 +78,12 @@ std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frame
 		int time = GetTickCount();
 		
 		// When the player wants to quit abruptly, 'esc' can be used (0 in output vector will stop the game).
-		if(GetAsyncKeyState(VK_ESCAPE)) {return {0};}    
-		else if(GetAsyncKeyState(VK_UP)) player->go_up();
-		else if(GetAsyncKeyState(VK_DOWN)) player->go_down();
-		else if(GetAsyncKeyState(VK_LEFT)) player->go_left();
-		else if(GetAsyncKeyState(VK_RIGHT)) player->go_right();
-		else if(GetAsyncKeyState(VK_RSHIFT)) return player->collected_numbers;
+		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000) {return {0};}    
+		else if(GetAsyncKeyState(VK_UP) & 0x8000) player->go_up();
+		else if(GetAsyncKeyState(VK_DOWN) & 0x8000) player->go_down();
+		else if(GetAsyncKeyState(VK_LEFT) & 0x8000) player->go_left();
+		else if(GetAsyncKeyState(VK_RIGHT) & 0x8000) player->go_right();
+		else if(GetAsyncKeyState(VK_RSHIFT) & 0x8000) return player->collected_numbers;
 		
 		player->update_los_grid(lvl);
 		player->check_collision(lvl);
@@ -98,19 +101,18 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 		int pick_order = 1;
 		// The actual screen
 		canvas->draw_calc_screen(collected_numbers, pick_order);
-		if(GetAsyncKeyState(VK_ESCAPE)){
+		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000){
 			running = false;
-		}else if(GetAsyncKeyState(VK_LEFT)){
-			canvas->calc_left(collected_numbers);
-		}else if(GetAsyncKeyState(VK_RIGHT))
-			canvas->calc_right(collected_numbers);
-		else if (GetAsyncKeyState(VK_RSHIFT)){
+		}else if(GetAsyncKeyState(VK_LEFT) & 0x8000){
+			canvas->previous(canvas->calc_selected_item, collected_numbers);		//canvas->calc_left(collected_numbers);
+		}else if(GetAsyncKeyState(VK_RIGHT) & 0x8000)
+			canvas->next(canvas->calc_selected_item, collected_numbers);			//calc_right(collected_numbers);
+		else if (GetAsyncKeyState(VK_RSHIFT) & 0x8000){
 			calculation.push_back(canvas->calc_selected_item);
-			pick_order = 2;
-			return;
+			//pick_order = 2;
+			//return;
 		}
 		while(GetTickCount()-time <frameduration ){}	
 	}
 }
 
-//void pick_operator(

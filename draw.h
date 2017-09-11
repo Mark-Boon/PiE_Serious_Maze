@@ -6,20 +6,36 @@
 #include <vector>
 #include <sstream>
 
+
 class Window {
 	// This is the width in characters, 1 width = 2 characters, height is just height
 	int width, height;
+
+public:
 	std::vector<std::string> menu_items;
+	int calc_selected_item;
 	int menu_selected_item;
 	std::vector<char> calc_items;
-public:
-	int calc_selected_item;
 	
 	Window();	// resizes window
 	
-	// These four functions are used in the menu screen (self-explainatory names)
-	void menu_down();
-	void menu_up();
+	// This template function is defined in the header of 'draw', because the header needs
+	// the argument of a parameter, which is not defined for a template.
+	template<typename T>
+	void next(int &itemselect,std::vector<T> &itemlist){
+		if(itemselect == itemlist.size()-1)
+			itemselect = 0;
+		else
+			itemselect++;
+	}
+		template<typename T>
+	void previous(int &itemselect,std::vector<T> &itemlist){
+		if(itemselect == 0)
+			itemselect = itemlist.size()-1;
+		else
+			itemselect--;
+	}
+	// Menu functions:
 	std::string menu_get_name_selected();
 	void draw_title();
 	
@@ -27,8 +43,6 @@ public:
 	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers); // draws the level on screen (losmatrix)
 
 	// These functions are used in the calculation screen
-	void calc_left(std::vector<int> &collected_numbers);
-	void calc_right(std::vector<int> &collected_numbers);
 	int calc_get_char(std::vector<int> &collected_numbers);
 	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order);
 
