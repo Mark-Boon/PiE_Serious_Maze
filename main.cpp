@@ -23,14 +23,11 @@ int main() {
 		}else if(GetAsyncKeyState(VK_UP)){
 			canvas->menu_up();
 		}else if(GetAsyncKeyState(VK_RETURN)){
-			std::string temp = canvas->menu_get_name_selected();
-			if(temp == "Quit"){
+			// Get filename of selected level
+			std::string filename = canvas->menu_get_name_selected();
+			if(filename == "Quit"){
 				running = false;
 			}else {
-				// Create filename string of selected level
-				std::string filename = "lvl";
-				filename += temp[6];
-				filename += ".txt";
 				// level(filename, ratio nr generation)
 				Level* lvl = new Level(filename , 5);
 				// player(begin x, begin y, LOS, pointer to level)
