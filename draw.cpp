@@ -15,6 +15,12 @@ Window::Window(){
 	this->menu_items.push_back("Level 2");
 	this->menu_items.push_back("Level 3");
 	this->menu_items.push_back("Quit");
+	this->calc_selected_item = 0;
+
+	this->calc_items.push_back('+');
+	this->calc_items.push_back('-');
+	this->calc_items.push_back('*');
+	this->calc_items.push_back('/');
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
@@ -138,30 +144,59 @@ int Window::calc_get_char(std::vector<int> &collected_numbers){
 	return collected_numbers[this->calc_selected_item];
 }
 
-void Window::draw_calc_screen(std::vector<int> collected_numbers){
+void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order){
 	system("cls");
+	// The switch decides what is being chosen (numer or operator)
+	//int pick_order = 0;
 	std::stringstream ss;
 	std::string temp;
 	
 	ss << "\nCalculation screen \n\n";
 	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
-	
-	std::vector<int>::iterator it = collected_numbers.begin();
-	while(it!=collected_numbers.end()){
-		// If this item is selected, draw arrow
-		if (it - collected_numbers.begin() == this->calc_selected_item)
-			ss << " -->";
-		else
-			ss << "    ";
-		ss << *it;
-		it++;
+	ss<< "Collected numbers: \n";
+	switch (pick_order){
+		case 1:{
+			std::vector<int>::iterator it = collected_numbers.begin();
+			while(it!=collected_numbers.end()){
+				// If this item is selected, draw arrow
+				if (it - collected_numbers.begin() == this->calc_selected_item)
+					ss << " -->";
+				else
+					ss << "    ";
+				ss << *it;
+				it++;
+			}
+			ss << "\nPossible operators: \n";
+			std::vector<char>::iterator it2 = calc_items.begin();
+			while(it2!=calc_items.end()){
+			ss << "    " << *it2;
+				it2++;
+			}
+
+		}
+		case 2:{
+			std::vector<int>::iterator it = collected_numbers.begin();
+			while(it!=collected_numbers.end()){
+				// If this item is selected, draw arrow
+				ss << "    "<< *it;
+				it++;
+			}
+			ss << "\nPossible operators: \n";
+			std::vector<char>::iterator it2 = calc_items.begin();
+			while(it2!=calc_items.end()){
+				// HIER DIE IF STATEMENT ZOALS BIJ NUMBERS
+			ss << "    " << *it2;
+				it2++;
+			}
+
+		}	
 	}
+	
 	// Fill screen with newline characters
-	int margin_bot = this->height-3-this->menu_items.size();
+	int margin_bot = this->height-12;
 	temp.append<int>(margin_bot, '\n');
 	ss << temp;
 	
 	std::cout << ss.str();
 }
-
 

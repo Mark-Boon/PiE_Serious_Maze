@@ -11,8 +11,10 @@ class Window {
 	int width, height;
 	std::vector<std::string> menu_items;
 	int menu_selected_item;
-	int calc_selected_item;
+	std::vector<char> calc_items;
 public:
+	int calc_selected_item;
+	
 	Window();	// resizes window
 	
 	// These four functions are used in the menu screen (self-explainatory names)
@@ -28,7 +30,7 @@ public:
 	void calc_left(std::vector<int> &collected_numbers);
 	void calc_right(std::vector<int> &collected_numbers);
 	int calc_get_char(std::vector<int> &collected_numbers);
-	void draw_calc_screen(std::vector<int> collected_numbers);
+	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order);
 
 };
 
