@@ -5,10 +5,12 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
+#include <stdexcept>
 
 void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
 
 int main() {
+	try{
 	int frameduration = 80;
 	Window* canvas = new Window;
 	
@@ -42,8 +44,11 @@ int main() {
 		canvas->draw_title();
 		
 		while(GetTickCount()-time <frameduration ){}
+	} 
+	}catch (std::exception& e){
+		std::cerr << "Error: " << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
-	
 	return 0;
 }
 

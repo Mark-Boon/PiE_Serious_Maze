@@ -24,8 +24,7 @@ void Window::get_list_levelfiles(){
 	// Check if directory exists
 	char cCurrentPath[FILENAME_MAX];
 	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))){
-		std::cout << "Can't get current directory" << std::endl;
-		return;
+		throw(std::invalid_argument("Cannot get current directory"));
 	}
 	
 	// Loop over files with name "lvl*.txt"
@@ -34,8 +33,7 @@ void Window::get_list_levelfiles(){
 	WIN32_FIND_DATAA ffd;
 	HANDLE hFind = FindFirstFileA(temp.c_str(), &ffd);
 	if(hFind== INVALID_HANDLE_VALUE){
-		std::cout << "No level files found, add some levels with name 'lvl#.txt'." << std::endl;;
-		return;
+		throw(std::invalid_argument("No level files found, add some levels with filename 'lvl#.txt'."));
 	}
 	do {
 	    this->menu_items.push_back(ffd.cFileName);

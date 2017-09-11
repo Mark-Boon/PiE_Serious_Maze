@@ -9,6 +9,7 @@
 #include <direct.h>
 #include <string>
 #define GetCurrentDir _getcwd
+#include <stdexcept>
 
 class Window {
 	// This is the width in characters, 1 width = 2 characters, height is just height
