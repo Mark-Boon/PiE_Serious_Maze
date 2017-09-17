@@ -17,10 +17,10 @@ Window::Window(){
 	this->menu_items.push_back("Quit");
 	this->calc_selected_item = 0;
 	
-	this->calc_items.push_back('+');
-	this->calc_items.push_back('-');
-	this->calc_items.push_back('*');
-	this->calc_items.push_back('/');
+	this->calc_items.push_back("+");
+	this->calc_items.push_back("-");
+	this->calc_items.push_back("*");
+	this->calc_items.push_back("/");
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
@@ -62,7 +62,6 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	std::string temp;
 	
 	// Margin top
-
 	int top_margin = (this->width-width)/2;
 
 	// Appends an integer (top_margin) times the character given.
@@ -116,7 +115,7 @@ int Window::calc_get_char(std::vector<int> &collected_numbers){
 	return collected_numbers[this->calc_selected_item];
 }
 
-void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order){
+void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops){
 	system("cls");
 	// The switch decides what is being chosen (numer or operator)
 	//int pick_order = 0;
@@ -139,13 +138,13 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 				it++;
 			}
 			ss << "\nPossible operators: \n";
-			std::vector<char>::iterator it2 = calc_items.begin();
+			std::vector<std::string>::iterator it2 = calc_items.begin();
 			while(it2!=calc_items.end()){
 			ss << "    " << *it2;
 				it2++;
 			}
-
 		}
+		break;
 		case 2:{
 			std::vector<int>::iterator it = collected_numbers.begin();
 			while(it!=collected_numbers.end()){
@@ -154,18 +153,29 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 				it++;
 			}
 			ss << "\nPossible operators: \n";
-			std::vector<char>::iterator it2 = calc_items.begin();
+			std::vector<std::string>::iterator it2 = calc_items.begin();
 			while(it2!=calc_items.end()){
-				// HIER DIE IF STATEMENT ZOALS BIJ NUMBERS
-			ss << "    " << *it2;
+				if (it2 - calc_items.begin() == this->calc_selected_item)
+					ss << " -->";
+				else
+					ss << "    ";
+				ss << *it2;
 				it2++;
 			}
 
-		}	
+		}
+		break;	
 	}
-	
+	// Draw the chosen numbers
+	ss << "\n\n Chosen numbers and operators: \n";
+	std::vector<std::string>::iterator it = chosen_numb_ops.begin();
+	while (it!=chosen_numb_ops.end()){
+		ss << "   " << *it;
+		it++;
+	}
+		
 	// Fill screen with newline characters
-	int margin_bot = this->height-12;
+	int margin_bot = this->height-14;
 	temp.append<int>(margin_bot, '\n');
 	ss << temp;
 	

@@ -15,12 +15,13 @@ public:
 	std::vector<std::string> menu_items;
 	int calc_selected_item;
 	int menu_selected_item;
-	std::vector<char> calc_items;
+	std::vector<std::string> calc_items;
 	
 	Window();	// resizes window
 	
 	// This template function is defined in the header of 'draw', because the header needs
 	// the argument of a parameter, which is not defined for a template.
+	// The function is used to scroll through options in the menu screen/collected numbers in calculation screen
 	template<typename T>
 	void next(int &itemselect,std::vector<T> &itemlist){
 		if(itemselect == itemlist.size()-1)
@@ -35,6 +36,7 @@ public:
 		else
 			itemselect--;
 	}
+	
 	// Menu functions:
 	std::string menu_get_name_selected();
 	void draw_title();
@@ -44,7 +46,7 @@ public:
 
 	// These functions are used in the calculation screen
 	int calc_get_char(std::vector<int> &collected_numbers);
-	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order);
+	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops);
 
 };
 
