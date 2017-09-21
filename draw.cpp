@@ -11,15 +11,33 @@ Window::Window(){
 	this->width = 25;
 	this->height = 30;
 	this->menu_selected_item = 0;
-	this->menu_items.push_back("Level 1");
-	this->menu_items.push_back("Level 2");
-	this->menu_items.push_back("Level 3");
+	this->get_list_levelfiles();
 	this->menu_items.push_back("Quit");
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
   	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
   	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
+}
+
+void Window::get_list_levelfiles(){
+	// Check if directory exists
+	char cCurrentPath[FILENAME_MAX];
+	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))){
+		throw(std::invalid_argument("Cannot get current directory"));
+	}
+	
+	// Loop over files with name "lvl*.txt"
+	std::string temp (cCurrentPath);
+	temp += "\\lvl*.txt";
+	WIN32_FIND_DATAA ffd;
+	HANDLE hFind = FindFirstFileA(temp.c_str(), &ffd);
+	if(hFind== INVALID_HANDLE_VALUE){
+		throw(std::invalid_argument("No level files found, add some levels with filename 'lvl#.txt'."));
+	}
+	do {
+	    this->menu_items.push_back(ffd.cFileName);
+	} while (FindNextFileA(hFind, &ffd) != 0);
 }
 
 void Window::menu_down(){
@@ -53,7 +71,11 @@ void Window::draw_title(){
 			ss << "\t-->";
 		else
 			ss << "\t   ";
-		ss << *it << "\n";
+		
+		if (*it=="Quit")
+			ss << *it << "\n";
+		else
+			ss << "Level " << std::string(*it).substr(3,1) << "\n";
 		it++;
 	}
 	// Fill screen with newline characters

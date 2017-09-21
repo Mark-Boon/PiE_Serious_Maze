@@ -27,8 +27,9 @@ Level::Level(std::string filename, int ratio){
 		this->height=height;
 		// Define the size of the maze vector.
 		this->maze.resize(width*height);
+	} else {
+		throw(std::invalid_argument("Error opening file"));
 	}
-	else std::cout<<"Error opening file"<<std::endl;
 	
 // Second part of the constructor: load the information of the maze.
 // Because we initially don't know what the size of the maze is, we first read the dimensions, then create a vector with the right dimension
@@ -45,7 +46,7 @@ Level::Level(std::string filename, int ratio){
 			i++;	
 		}
 		file_maze.close();
-	}else std::cout<<"Error opening file"<<std::endl;
+	}else throw(std::invalid_argument("Error opening file"));
 	
 	// Generate numbers in maze with ratio to available spaces of 1/10
 	generate_numbers(ratio);
@@ -64,4 +65,10 @@ void Level::generate_numbers(int ratio){
 		}
 		this->maze[pos] = rand()%9+1;
 	}
+	
+	// Check if level is playable:
+	if (this->maze[this->width+1])
+		throw(std::invalid_argument("Error, (1,1) in maze is not a free cell."));
+	
+	
 }

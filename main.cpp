@@ -31,10 +31,12 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
+#include <stdexcept>
 
 void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
 
 int main() {
+	try{
 	int frameduration = 80;
 	Window* canvas = new Window;
 	
@@ -49,14 +51,11 @@ int main() {
 		}else if(GetAsyncKeyState(VK_UP)){
 			canvas->menu_up();
 		}else if(GetAsyncKeyState(VK_RETURN)){
-			std::string temp = canvas->menu_get_name_selected();
-			if(temp == "Quit"){
+			// Get filename of selected level
+			std::string filename = canvas->menu_get_name_selected();
+			if(filename == "Quit"){
 				running = false;
 			}else {
-				// Create filename string of selected level
-				std::string filename = "lvl";
-				filename += temp[6];
-				filename += ".txt";
 				// level(filename, ratio nr generation)
 				Level* lvl = new Level(filename , 5);
 				// player(begin x, begin y, LOS, pointer to level)
@@ -71,8 +70,11 @@ int main() {
 		canvas->draw_title();
 		
 		while(GetTickCount()-time <frameduration ){}
+	} 
+	}catch (std::exception& e){
+		std::cerr << "Error: " << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
-	
 	return 0;
 }
 
