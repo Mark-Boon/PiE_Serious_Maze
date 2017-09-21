@@ -114,6 +114,9 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 int Window::calc_get_char(std::vector<int> &collected_numbers){
 	return collected_numbers[this->calc_selected_item];
 }
+void Window::calculator(){
+	
+}
 
 void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops){
 	system("cls");

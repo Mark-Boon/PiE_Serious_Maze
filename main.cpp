@@ -45,7 +45,7 @@ int main() {
 				else
 					running = false;
 				//int time = GetTickCount();
-				// *** Hier iets met calc_screen	
+					
 				pick_number(canvas, numbers, frameduration);	
 		
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
