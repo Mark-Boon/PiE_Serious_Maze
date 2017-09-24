@@ -124,13 +124,13 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 	//int pick_order = 0;
 	std::stringstream ss;
 	std::string temp;
-	
+	std::vector<int>::iterator it = collected_numbers.begin();
+	std::vector<std::string>::iterator it2 = calc_items.begin();
 	ss << "\nCalculation screen \n\n";
 	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
 	ss<< "Collected numbers: \n";
 	switch (pick_order){
 		case 1:{
-			std::vector<int>::iterator it = collected_numbers.begin();
 			while(it!=collected_numbers.end()){
 				// If this item is selected, draw arrow
 				if (it - collected_numbers.begin() == this->calc_selected_item)
@@ -141,7 +141,6 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 				it++;
 			}
 			ss << "\nPossible operators: \n";
-			std::vector<std::string>::iterator it2 = calc_items.begin();
 			while(it2!=calc_items.end()){
 			ss << "    " << *it2;
 				it2++;
@@ -149,16 +148,14 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 		}
 		break;
 		case 2:{
-			std::vector<int>::iterator it = collected_numbers.begin();
 			while(it!=collected_numbers.end()){
-				// If this item is selected, draw arrow
 				ss << "    "<< *it;
 				it++;
 			}
 			ss << "\nPossible operators: \n";
-			std::vector<std::string>::iterator it2 = calc_items.begin();
 			while(it2!=calc_items.end()){
 				if (it2 - calc_items.begin() == this->calc_selected_item)
+				// If this item is selected, draw arrow
 					ss << " -->";
 				else
 					ss << "    ";
@@ -171,10 +168,10 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 	}
 	// Draw the chosen numbers
 	ss << "\n\n Chosen numbers and operators: \n";
-	std::vector<std::string>::iterator it = chosen_numb_ops.begin();
-	while (it!=chosen_numb_ops.end()){
-		ss << "   " << *it;
-		it++;
+	it2 = chosen_numb_ops.begin();
+	while (it2!=chosen_numb_ops.end()){
+		ss << "   " << *it2;
+		it2++;
 	}
 		
 	// Fill screen with newline characters

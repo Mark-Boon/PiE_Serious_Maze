@@ -10,11 +10,11 @@
 class Window {
 	// This is the width in characters, 1 width = 2 characters, height is just height
 	int width, height;
-
+	
 public:
+	int menu_selected_item;
 	std::vector<std::string> menu_items;
 	int calc_selected_item;
-	int menu_selected_item;
 	std::vector<std::string> calc_items;
 	
 	Window();	// resizes window

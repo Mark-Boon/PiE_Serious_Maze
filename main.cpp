@@ -7,7 +7,7 @@
 #include <vector>
 
 // Two game loops defined in main, one for the maze and one for the calculation screen:
-std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
+void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
 void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration);
 
 int main() {
@@ -15,7 +15,6 @@ int main() {
 	Window* canvas = new Window;
 	
 	bool running = true;
-	std::vector<int>numbers;
 	while(running){
 		int time = GetTickCount();
 		
@@ -39,14 +38,14 @@ int main() {
 				// player(begin x, begin y, LOS, pointer to level)
 				Player* player = new Player(1,1,8,lvl);
 				// Open level loop
-				numbers = loop_maze(canvas, lvl, player, frameduration);
-				if (numbers.empty() || numbers[0] == 0)
+				loop_maze(canvas, lvl, player, frameduration);
+				if (player->collected_numbers.empty() || player->collected_numbers[0] == 0)
 					return 0;
 				else
 					running = false;
 				//int time = GetTickCount();
 					
-				pick_number(canvas, numbers, frameduration);	
+				pick_number(canvas, player->collected_numbers, frameduration);	
 		
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
 				Sleep(200);			
@@ -70,19 +69,19 @@ int main() {
 	return 0;
 }
 
-std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
+void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 	int size = player->los*2+1;
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
 		
 		// When the player wants to quit abruptly, 'esc' can be used (0 in output vector will stop the game).
-		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000) {return {0};}    
+		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000) {return;}    
 		else if(GetAsyncKeyState(VK_UP) & 0x8000) player->go_up();
 		else if(GetAsyncKeyState(VK_DOWN) & 0x8000) player->go_down();
 		else if(GetAsyncKeyState(VK_LEFT) & 0x8000) player->go_left();
 		else if(GetAsyncKeyState(VK_RIGHT) & 0x8000) player->go_right();
-		else if(GetAsyncKeyState(VK_RSHIFT) & 0x8000) return player->collected_numbers;
+		else if(GetAsyncKeyState(VK_RSHIFT) & 0x8000) return;
 		
 		player->update_los_grid(lvl);
 		player->check_collision(lvl);
@@ -90,7 +89,6 @@ std::vector<int> loop_maze(Window* canvas, Level* lvl, Player* player, int frame
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
-	return player->collected_numbers;
 }
 
 void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration){
@@ -115,7 +113,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 					// Does the following: put chosen number in vector, removes that number from collected numbers,
 					// sets the 'select arrow' back to the first element, switches to choose from the operators vector
 					chosen_numb_ops.push_back(std::to_string(canvas->calc_get_char(collected_numbers)));
-					collected_numbers.erase(collected_numbers.begin()+canvas->calc_selected_item-1);
+					collected_numbers.erase(canvas->calc_selected_item);
 					canvas->calc_selected_item = 0;
 					pick_order = 2;
 				}
