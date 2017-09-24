@@ -52,7 +52,7 @@ public:
 	// These functions are used in the calculation screen
 	int calc_get_char(std::vector<int> &collected_numbers);
 	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops);
-	void calculator();
+	void calculator(std::vector<std::string> &chosen_numb_ops);
 };
 
 #endif

@@ -136,8 +136,21 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 int Window::calc_get_char(std::vector<int> &collected_numbers){
 	return collected_numbers[this->calc_selected_item];
 }
-void Window::calculator(){
-	
+
+void Window::calculator(std::vector<std::string> &chosen_numb_ops){
+	std::stringstream ss;
+	std::string temp;
+	if (chosen_numb_ops[1]=="+")
+		ss << std::stof(chosen_numb_ops[0])+std::stof(chosen_numb_ops[2]);
+	else if(chosen_numb_ops[1]=="-")
+		ss << std::stof(chosen_numb_ops[0])-std::stof(chosen_numb_ops[2]);
+	else if(chosen_numb_ops[1]=="*")
+		ss << std::stof(chosen_numb_ops[0])*std::stof(chosen_numb_ops[2]);
+	else if(chosen_numb_ops[1]=="/")
+		ss << std::stof(chosen_numb_ops[0])/std::stof(chosen_numb_ops[2]);
+	ss >> temp;
+	chosen_numb_ops.clear();
+	chosen_numb_ops.push_back(temp.substr(0,5));
 }
 
 void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops){
@@ -189,7 +202,7 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 		break;	
 	}
 	// Draw the chosen numbers
-	ss << "\n\n Chosen numbers and operators: \n";
+	ss << "\n\n Calculation \n";
 	it2 = chosen_numb_ops.begin();
 	while (it2!=chosen_numb_ops.end()){
 		ss << "   " << *it2;
