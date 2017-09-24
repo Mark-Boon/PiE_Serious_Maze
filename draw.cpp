@@ -13,6 +13,12 @@ Window::Window(){
 	this->menu_selected_item = 0;
 	this->get_list_levelfiles();
 	this->menu_items.push_back("Quit");
+	this->calc_selected_item = 0;
+	
+	this->calc_items.push_back("+");
+	this->calc_items.push_back("-");
+	this->calc_items.push_back("*");
+	this->calc_items.push_back("/");
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
@@ -85,14 +91,13 @@ void Window::draw_title(){
 	
 	std::cout << ss.str();
 }
-
+// Maze screen function:
 void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
 	system("cls");
 	std::stringstream ss;
 	std::string temp;
 	
 	// Margin top
-
 	int top_margin = (this->width-width)/2;
 
 	// Appends an integer (top_margin) times the character given.
@@ -118,7 +123,7 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 		else ss << (char) 32 << losmatrix[i];	// This copies the numbers that need to be collected.
 	}
 	
-	// Fill below los_grid untill text
+	// Fill below los_grid until text
 	temp.clear();
 	temp.append<int>(top_margin, '\n');
 	ss << temp;
@@ -140,3 +145,78 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	
 	std::cout << ss.str();
 }
+
+// Calculation screen functions:
+int Window::calc_get_char(std::vector<int> &collected_numbers){
+	return collected_numbers[this->calc_selected_item];
+}
+void Window::calculator(){
+	
+}
+
+void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops){
+	system("cls");
+	// The switch decides what is being chosen (numer or operator)
+	//int pick_order = 0;
+	std::stringstream ss;
+	std::string temp;
+	std::vector<int>::iterator it = collected_numbers.begin();
+	std::vector<std::string>::iterator it2 = calc_items.begin();
+	ss << "\nCalculation screen \n\n";
+	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
+	ss<< "Collected numbers: \n";
+	switch (pick_order){
+		case 1:{
+			while(it!=collected_numbers.end()){
+				// If this item is selected, draw arrow
+				if (it - collected_numbers.begin() == this->calc_selected_item)
+					ss << " -->";
+				else
+					ss << "    ";
+				ss << *it;
+				it++;
+			}
+			ss << "\nPossible operators: \n";
+			while(it2!=calc_items.end()){
+			ss << "    " << *it2;
+				it2++;
+			}
+		}
+		break;
+		case 2:{
+			while(it!=collected_numbers.end()){
+				ss << "    "<< *it;
+				it++;
+			}
+			ss << "\nPossible operators: \n";
+			while(it2!=calc_items.end()){
+				if (it2 - calc_items.begin() == this->calc_selected_item)
+				// If this item is selected, draw arrow
+					ss << " -->";
+				else
+					ss << "    ";
+				ss << *it2;
+				it2++;
+			}
+
+		}
+		break;	
+	}
+	// Draw the chosen numbers
+	ss << "\n\n Chosen numbers and operators: \n";
+	it2 = chosen_numb_ops.begin();
+	while (it2!=chosen_numb_ops.end()){
+		ss << "   " << *it2;
+		it2++;
+	}
+		
+	// Fill screen with newline characters
+	int margin_bot = this->height-14;
+	temp.append<int>(margin_bot, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
+}
+
+
+
