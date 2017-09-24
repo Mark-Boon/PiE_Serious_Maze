@@ -49,9 +49,9 @@ int main() {
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000){
 			running = false;
 		}else if(GetAsyncKeyState(VK_DOWN) & 0x8000){
-			canvas->next(canvas->menu_selected_item, canvas->menu_items);		//canvas->menu_down();
+			canvas->next(canvas->menu_selected_item, canvas->menu_items);		
 		}else if(GetAsyncKeyState(VK_UP) & 0x8000){
-			canvas->previous(canvas->menu_selected_item, canvas->menu_items);		//canvas->menu_up();
+			canvas->previous(canvas->menu_selected_item, canvas->menu_items);		
 		}else if(GetAsyncKeyState(VK_RETURN) & 0x8000){
 			std::string filename = canvas->menu_get_name_selected();
 			if(filename == "Quit"){
@@ -113,9 +113,11 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 	std::vector<std::string> chosen_numb_ops;
 	while(running){
 		int time = GetTickCount();
-		
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 			running = false;
+		// When there are 3 elements in chosen_numb_ops, the player picked 2 numbers and an operator, so a calculation has to be made.
+		if(chosen_numb_ops.size()==3)
+			canvas->calculator(chosen_numb_ops);
 		switch(pick_order){
 			case 1:{
 				if(GetAsyncKeyState(VK_LEFT) & 0x8000){
@@ -146,7 +148,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 		}
 		// The actual screen
 		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops, target);
-		while(GetTickCount()-time <frameduration ){}	
+		while(GetTickCount()-time <frameduration){}	
 	}
 }
 
