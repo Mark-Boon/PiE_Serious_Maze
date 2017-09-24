@@ -35,7 +35,7 @@
 
 // Two game loops defined in main, one for the maze and one for the calculation screen:
 void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
-void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration);
+void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target);
 
 int main() {
 	try{
@@ -96,17 +96,17 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		
 		player->update_los_grid(lvl);
 		player->check_collision(lvl);
-		canvas->draw_maze(size, player->los_grid, player->collected_numbers);
+		canvas->draw_maze(size, player->los_grid, player->collected_numbers, lvl->target);
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
 	// If you collected nothing, just return to menu
 	if (player->collected_numbers.empty() || player->collected_numbers[0] == 0)
 		return;
-	pick_number(canvas, player->collected_numbers, frameduration);
+	pick_number(canvas, player->collected_numbers, frameduration, lvl->target);
 }
 
-void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration){
+void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target){
 	Sleep(200);
 	bool running = true;
 	int pick_order = 1;
@@ -147,7 +147,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 			}
 		}
 		// The actual screen
-		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops);
+		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops, target);
 		while(GetTickCount()-time <frameduration){}	
 	}
 }

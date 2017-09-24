@@ -57,16 +57,42 @@ void Level::generate_numbers(int ratio){
 	srand(time(NULL));
 	// Calculates number of numbers to be put in maze, because this is an integer, it is rounded down.
 	int nr_nr = this->spaces/ratio;
+	// Number of random numbers to be used for generating a target, rounded down
+	int nr_target = nr_nr/5;
+	int target[nr_target];
+	
 	// rand()%10 generates a number on interval [0,9]
 	for (int i=0; i<nr_nr; i++){
 		int pos = rand()%(this->height*this->width);
-		while(this->maze[pos]!=0){
+		// choose different spot to put number in if either there is a wall (maze[pos]=1) or pos is starting place of player
+		while(this->maze[pos]!=0 || pos==this->width+1){
 			pos = rand()%(this->height*this->width);
 		}
+		// Insert random number in maze at pos
 		this->maze[pos] = rand()%9+1;
+		// Use first few numbers to generate target later
+		if(i<nr_target)
+			target[i] = this->maze[pos];
 	}
 	
-	// Check if level is playable:
-	if (this->maze[this->width+1])
-		this->maze[this->width+1]=0;
+	// Store first number in level::target
+	this->target = (float) target[0];
+	// Loop through the rest to generate the target of the level you have to get close to for the best score
+	for (int i=1; i<nr_target;i++){
+		// Choose operator
+		switch(rand()%4){
+		case 0:
+			this->target += target[i];
+			break;
+		case 1:
+			this->target -= target[i];
+			break;
+		case 2:
+			this->target *= target[i];
+			break;
+		case 3:
+			this->target /= target[i];
+			break;
+		}
+	}
 }
