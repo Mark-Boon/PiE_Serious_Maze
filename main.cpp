@@ -39,7 +39,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 
 int main() {
 	try{
-	int frameduration = 80;
+	int frameduration = 100;
 	Window* canvas = new Window;
 	
 	bool running = true;
@@ -114,8 +114,6 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 	while(running){
 		int time = GetTickCount();
 		
-		// The actual screen
-		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops);
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 			running = false;
 		switch(pick_order){
@@ -146,6 +144,8 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 				}
 			}
 		}
+		// The actual screen
+		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops);
 		while(GetTickCount()-time <frameduration ){}	
 	}
 }

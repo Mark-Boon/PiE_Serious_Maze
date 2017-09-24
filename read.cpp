@@ -48,7 +48,7 @@ Level::Level(std::string filename, int ratio){
 		file_maze.close();
 	}else throw(std::invalid_argument("Error opening file"));
 	
-	// Generate numbers in maze with ratio to available spaces of 1/10
+	// Generate numbers in maze with ratio to available spaces of 1/ratio
 	generate_numbers(ratio);
 }
 
@@ -68,7 +68,5 @@ void Level::generate_numbers(int ratio){
 	
 	// Check if level is playable:
 	if (this->maze[this->width+1])
-		throw(std::invalid_argument("Error, (1,1) in maze is not a free cell."));
-	
-	
+		this->maze[this->width+1]=0;
 }
