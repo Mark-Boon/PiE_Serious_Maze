@@ -46,20 +46,6 @@ void Window::get_list_levelfiles(){
 	} while (FindNextFileA(hFind, &ffd) != 0);
 }
 
-void Window::menu_down(){
-	if(this->menu_selected_item == this->menu_items.size()-1)
-		this->menu_selected_item = 0;
-	else
-		this->menu_selected_item++;
-}
-
-void Window::menu_up(){
-	if(this->menu_selected_item == 0)
-		this->menu_selected_item = this->menu_items.size()-1;
-	else
-		this->menu_selected_item--;
-}
-
 std::string Window::menu_get_name_selected(){
 	return this->menu_items[this->menu_selected_item];
 }

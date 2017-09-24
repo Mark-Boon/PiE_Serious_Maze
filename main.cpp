@@ -53,8 +53,8 @@ int main() {
 		}else if(GetAsyncKeyState(VK_UP) & 0x8000){
 			canvas->previous(canvas->menu_selected_item, canvas->menu_items);		//canvas->menu_up();
 		}else if(GetAsyncKeyState(VK_RETURN) & 0x8000){
-			std::string temp = canvas->menu_get_name_selected();
-			if(temp == "Quit"){
+			std::string filename = canvas->menu_get_name_selected();
+			if(filename == "Quit"){
 				running = false;
 			}else {
 				// level(filename, ratio nr generation)
@@ -63,16 +63,9 @@ int main() {
 				Player* player = new Player(1,1,8,lvl);
 				// Open level loop
 				loop_maze(canvas, lvl, player, frameduration);
-				if (player->collected_numbers.empty() || player->collected_numbers[0] == 0)
-					return 0;
-				else
-					running = false;
-				//int time = GetTickCount();
-					
-				pick_number(canvas, player->collected_numbers, frameduration);	
 		
 				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
-				Sleep(200);			
+				Sleep(200);
 			}
 		}
 		
@@ -99,7 +92,7 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		else if(GetAsyncKeyState(VK_DOWN) & 0x8000) player->go_down();
 		else if(GetAsyncKeyState(VK_LEFT) & 0x8000) player->go_left();
 		else if(GetAsyncKeyState(VK_RIGHT) & 0x8000) player->go_right();
-		else if(GetAsyncKeyState(VK_RSHIFT) & 0x8000) return;
+		else if(GetAsyncKeyState(VK_RSHIFT) & 0x8000) break;
 		
 		player->update_los_grid(lvl);
 		player->check_collision(lvl);
@@ -107,6 +100,10 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		
 		while(GetTickCount()-time <frameduration ){}
 	}
+	// If you collected nothing, just return to menu
+	if (player->collected_numbers.empty() || player->collected_numbers[0] == 0)
+		return;
+	pick_number(canvas, player->collected_numbers, frameduration);
 }
 
 void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration){
@@ -131,7 +128,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 					// Does the following: put chosen number in vector, removes that number from collected numbers,
 					// sets the 'select arrow' back to the first element, switches to choose from the operators vector
 					chosen_numb_ops.push_back(std::to_string(canvas->calc_get_char(collected_numbers)));
-					collected_numbers.erase(canvas->calc_selected_item);
+					collected_numbers.erase(collected_numbers.begin()+canvas->calc_selected_item);
 					canvas->calc_selected_item = 0;
 					pick_order = 2;
 				}
