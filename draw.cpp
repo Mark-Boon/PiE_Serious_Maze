@@ -78,7 +78,7 @@ void Window::draw_title(){
 	std::cout << ss.str();
 }
 // Maze screen function:
-void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers){
+void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers, float target){
 	system("cls");
 	std::stringstream ss;
 	std::string temp;
@@ -128,7 +128,7 @@ void Window::draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> 
 	temp.clear();
 	temp.append<int>(bot_margin, '\n');
 	ss << temp;
-	
+	ss << "Target is: " << (int)target;
 	std::cout << ss.str();
 }
 
@@ -140,7 +140,7 @@ void Window::calculator(){
 	
 }
 
-void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops){
+void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops, float target){
 	system("cls");
 	// The switch decides what is being chosen (numer or operator)
 	//int pick_order = 0;
@@ -149,7 +149,7 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 	std::vector<int>::iterator it = collected_numbers.begin();
 	std::vector<std::string>::iterator it2 = calc_items.begin();
 	ss << "\nCalculation screen \n\n";
-	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create 0 with the \nnumbers you found, you will escape.\n\n";
+	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create " << (int) target << " with the \nnumbers you found, you will escape.\n\n";
 	ss<< "Collected numbers: \n";
 	switch (pick_order){
 		case 1:{

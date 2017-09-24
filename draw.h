@@ -47,11 +47,11 @@ public:
 	void draw_title();
 	
 	// This function is used in the maze screen
-	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers); // draws the level on screen (losmatrix)
+	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers, float target); // draws the level on screen (losmatrix)
 
 	// These functions are used in the calculation screen
 	int calc_get_char(std::vector<int> &collected_numbers);
-	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops);
+	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops, float target);
 	void calculator();
 };
 
