@@ -5,6 +5,11 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <stdio.h>
+#include <direct.h>
+#include <string>
+#define GetCurrentDir _getcwd
+#include <stdexcept>
 
 
 class Window {
@@ -37,7 +42,7 @@ public:
 			itemselect--;
 	}
 	
-	// Menu functions:
+	void get_list_levelfiles();
 	std::string menu_get_name_selected();
 	void draw_title();
 	

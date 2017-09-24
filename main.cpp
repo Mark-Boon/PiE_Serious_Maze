@@ -1,3 +1,29 @@
+/*
+* Serious Maze, a game about searching for, and calculations with numbers
+* Authors:
+* Mark Boon	(m.n.boon@student.utwente.nl)
+* Lennart Knoll (l.j.knoll@student.utwente.nl)
+* Date last changes: 11-sept-2017
+* 
+* How to use the program:
+* Navigate through the menu and the maze with the arrow keys, press ESC to quit at any time, use ENTER to go to selected element.
+* Only playable on windows at the moment.
+* 
+* Files:
+* all files with a name of "lvl?.txt" where ? can be eny integer number are levels you can play
+* Designing your own level, use # for a wall and . for an empty space, the numbers in the maze are randomly generated when starting a level.
+* 
+* Restrictions:
+* Make sure the lvl is surrounded with walls (#) so that the player cannot escape the level.
+* Also position (1,1) should is always the beginning of level, so there should be a '.' character.
+* 
+* Revisions:
+* See https://github.com/DoveDoof/PiE_Serious_Maze
+* 
+* Error-management:
+* Complete program is in command prompt, so any errors will appear there.
+*/
+
 #include "read.h"
 #include "player.h"
 #include "draw.h"
@@ -5,12 +31,14 @@
 #include <iostream>
 #include <windows.h>
 #include <vector>
+#include <stdexcept>
 
 // Two game loops defined in main, one for the maze and one for the calculation screen:
 void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
 void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration);
 
 int main() {
+	try{
 	int frameduration = 80;
 	Window* canvas = new Window;
 	
@@ -29,10 +57,6 @@ int main() {
 			if(temp == "Quit"){
 				running = false;
 			}else {
-				// Create filename string of selected level
-				std::string filename = "lvl";
-				filename += temp[6];
-				filename += ".txt";
 				// level(filename, ratio nr generation)
 				Level* lvl = new Level(filename , 5);
 				// player(begin x, begin y, LOS, pointer to level)
@@ -55,17 +79,11 @@ int main() {
 		canvas->draw_title();
 		
 		while(GetTickCount()-time <frameduration ){}
+	} 
+	}catch (std::exception& e){
+		std::cerr << "Error: " << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
-/*	running = true;
-	// End-game while loop
-	while (running){
-		std::vector<char> calculation;
-		int time = GetTickCount();
-		// *** Hier iets met calc_screen	
-		pick_number(canvas, numbers, frameduration, calculation);	
-		
-		
-	}*/
 	return 0;
 }
 
