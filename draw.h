@@ -53,6 +53,7 @@ public:
 	int calc_get_char(std::vector<int> &collected_numbers);
 	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops, float target);
 	void calculator(std::vector<std::string> &chosen_numb_ops);
+	void draw_score(std::string number, float target);
 };
 
 #endif

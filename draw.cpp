@@ -2,12 +2,6 @@
 
 
 Window::Window(){
-	/* TODO
-	std::stringstream ss;
-	ss << "mode " << 40 << "," << 20;
-	const char* temp = ss.str().c_str();
-	std::cout << temp;
-	*/
 	this->width = 25;
 	this->height = 30;
 	this->menu_selected_item = 0;
@@ -218,4 +212,26 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 }
 
 
-
+void Window::draw_score(std::string number, float target){
+	system("cls");
+	std::stringstream ss;
+	std::string temp;
+	
+	// Calculate score
+	int score = (int)abs(std::stof(number)-(int)target);
+	ss << "\n Score screen\n\n Let's see how you did,\n you got to " << number;
+	ss << " while the target was " << (int) target << ".\n";
+	if (score==0)
+		ss << "\n Perfect! You couldnt have done any better!";
+	else if(score < 3)
+		ss << "\n Close, but no cigar.\n You are still " << score << " away from the target.\n Better luck next time.";
+	else
+		ss << "\n Not even close, are you even trying?!";
+	ss << "\n Press ENTER to exit...";
+	
+	// Fill screen with newline characters
+	temp.append<int>(this->height-7, '\n');
+	ss << temp;
+	
+	std::cout << ss.str();
+}

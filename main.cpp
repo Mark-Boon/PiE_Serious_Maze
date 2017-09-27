@@ -101,7 +101,7 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 		while(GetTickCount()-time <frameduration ){}
 	}
 	// If you collected nothing, just return to menu
-	if (player->collected_numbers.empty() || player->collected_numbers[0] == 0)
+	if (player->collected_numbers.empty())
 		return;
 	pick_number(canvas, player->collected_numbers, frameduration, lvl->target);
 }
@@ -113,18 +113,26 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 	std::vector<std::string> chosen_numb_ops;
 	while(running){
 		int time = GetTickCount();
+		// If you have no numbers left or you pressed shift, show score
+		if(collected_numbers.size()==0 || GetAsyncKeyState(VK_RSHIFT) & 0x8000){
+			if(!chosen_numb_ops.empty()){
+				canvas->draw_score(chosen_numb_ops[0], target);
+				Sleep(100);
+				while(!(GetAsyncKeyState(VK_RETURN) & 0x8000)){	}
+				return;
+			}
+		}
+		
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 			running = false;
-		// When there are 3 elements in chosen_numb_ops, the player picked 2 numbers and an operator, so a calculation has to be made.
-		if(chosen_numb_ops.size()==3)
-			canvas->calculator(chosen_numb_ops);
+		
 		switch(pick_order){
-			case 1:{
+			case 1:
 				if(GetAsyncKeyState(VK_LEFT) & 0x8000){
 					canvas->previous(canvas->calc_selected_item, collected_numbers);		
 				}else if(GetAsyncKeyState(VK_RIGHT) & 0x8000)
 					canvas->next(canvas->calc_selected_item, collected_numbers);			
-				else if (GetAsyncKeyState(VK_RSHIFT) & 0x8000){
+				else if (GetAsyncKeyState(VK_RETURN) & 0x8000){
 					// Does the following: put chosen number in vector, removes that number from collected numbers,
 					// sets the 'select arrow' back to the first element, switches to choose from the operators vector
 					chosen_numb_ops.push_back(std::to_string(canvas->calc_get_char(collected_numbers)));
@@ -132,20 +140,24 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 					canvas->calc_selected_item = 0;
 					pick_order = 2;
 				}
-			}
-			break;
-			case 2:{		
+				break;
+			case 2:
 				if(GetAsyncKeyState(VK_LEFT) & 0x8000){
 					canvas->previous(canvas->calc_selected_item,canvas->calc_items);		
 				}else if(GetAsyncKeyState(VK_RIGHT) & 0x8000)
 					canvas->next(canvas->calc_selected_item,canvas->calc_items);			
-				else if (GetAsyncKeyState(VK_RSHIFT) & 0x8000){
+				else if (GetAsyncKeyState(VK_RETURN) & 0x8000){
 					chosen_numb_ops.push_back(canvas->calc_items[canvas->calc_selected_item]);
 					canvas->calc_selected_item = 0;
 					pick_order = 1;
 				}
-			}
+				break;
 		}
+		
+		// When there are 3 elements in chosen_numb_ops, the player picked 2 numbers and an operator, so a calculation has to be made.
+		if(chosen_numb_ops.size()==3)
+			canvas->calculator(chosen_numb_ops);
+		
 		// The actual screen
 		canvas->draw_calc_screen(collected_numbers, pick_order, chosen_numb_ops, target);
 		while(GetTickCount()-time <frameduration){}	
