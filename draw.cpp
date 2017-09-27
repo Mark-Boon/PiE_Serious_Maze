@@ -224,7 +224,7 @@ void Window::draw_score(std::string number, float target){
 	if (score==0)
 		ss << "\n Perfect! You couldnt have done any better!";
 	else if(score < 3)
-		ss << "\n Close, but no sigar. You are still " << score << " away from the target.\n Better luck next time.";
+		ss << "\n Close, but no cigar.\n You are still " << score << " away from the target.\n Better luck next time.";
 	else
 		ss << "\n Not even close, are you even trying?!";
 	ss << "\n Press ENTER to exit...";
