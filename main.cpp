@@ -3,7 +3,7 @@
 * Authors:
 * Mark Boon	(m.n.boon@student.utwente.nl)
 * Lennart Knoll (l.j.knoll@student.utwente.nl)
-* Date last changes: 11-sept-2017
+* Date last changes: 07-okt-2017
 * 
 * How to use the program:
 * Navigate through the menu and the maze with the arrow keys, press ESC to quit at any time, use ENTER to go to selected element.
