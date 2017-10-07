@@ -16,8 +16,8 @@ Window::Window(){
 
 	// Code taken and modified from: https://stackoverflow.com/questions/7552644/resize-cmd-window
 	system("mode 50,30");   //Set mode to ensure window does not exceed buffer size
-  	SMALL_RECT WinRect = {0, 0, 50, 30};   //New dimensions for window in 8x12 pixel chars
-  	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   //Set new size for window
+  	SMALL_RECT WinRect = {0, 0, 50, 30};   // New dimensions for window in 8x12 pixel chars
+  	SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), true, &WinRect);   // Set new size for window
 }
 
 void Window::get_list_levelfiles(){
@@ -156,7 +156,7 @@ void Window::draw_calc_screen(std::vector<int> collected_numbers, int pick_order
 	std::vector<int>::iterator it = collected_numbers.begin();
 	std::vector<std::string>::iterator it2 = calc_items.begin();
 	ss << "\nCalculation screen \n\n";
-	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create " << (int) target << " with the \nnumbers you found, you will escape.\n\n";
+	ss <<"You must use your collected numbers to \ncalculate your way out of the maze. \nIf you succeed to create " << (int) target << " with the \nnumbers you found, you will escape. Press Enter   to select numbers and press shift to end the \ncalculation.\n\n";
 	ss<< "Collected numbers: \n";
 	switch (pick_order){
 		case 1:{
