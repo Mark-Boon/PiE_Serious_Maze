@@ -42,14 +42,15 @@ public:
 			itemselect--;
 	}
 	
+	//Menu functions:
 	void get_list_levelfiles();
 	std::string menu_get_name_selected();
 	void draw_title();
 	
-	// This function is used in the maze screen
-	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers, float target); // draws the level on screen (losmatrix)
+	// Maze functions:
+	void draw_maze(int width, std::vector<int> &losmatrix, std::vector<int> &collected_numbers, float target);
 
-	// These functions are used in the calculation screen
+	// Calculation screen functions:
 	int calc_get_char(std::vector<int> &collected_numbers);
 	void draw_calc_screen(std::vector<int> collected_numbers, int pick_order,std::vector<std::string> chosen_numb_ops, float target);
 	void calculator(std::vector<std::string> &chosen_numb_ops);

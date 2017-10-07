@@ -35,17 +35,17 @@
 
 // Two game loops defined in main, one for the maze and one for the calculation screen:
 void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration);
-void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target);
+void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target);
 
 int main() {
+	// 'try' and 'catch' to find exceptions
 	try{
 	int frameduration = 100;
 	Window* canvas = new Window;
-	
 	bool running = true;
 	while(running){
 		int time = GetTickCount();
-		
+		// One starts in the menu loop. As long as no menu item is selected (with 'vk_return'), the user stays in the menu.
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000){
 			running = false;
 		}else if(GetAsyncKeyState(VK_DOWN) & 0x8000){
@@ -61,16 +61,16 @@ int main() {
 				Level* lvl = new Level(filename , 5);
 				// player(begin x, begin y, LOS, pointer to level)
 				Player* player = new Player(1,1,8,lvl);
-				// Open level loop
+				// Opens level loop
 				loop_maze(canvas, lvl, player, frameduration);
 		
-				// maze loop ended by pressing escape, wait to not also exit titlescreen loop
+				// maze loop ended by pressing escape, wait 200ms to not also exit titlescreen loop on long press
 				Sleep(200);
 			}
 		}
-		
 		canvas->draw_title();
 		
+		// If the user pressed a button, suppress additional input for a short time to prevent overshoot
 		while(GetTickCount()-time <frameduration ){}
 	} 
 	}catch (std::exception& e){
@@ -86,7 +86,7 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 	while(running){
 		int time = GetTickCount();
 		
-		// When the player wants to quit abruptly, 'esc' can be used (0 in output vector will stop the game).
+		// When the player wants to quit abruptly, 'esc' can be used 
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000) {return;}    
 		else if(GetAsyncKeyState(VK_UP) & 0x8000) player->go_up();
 		else if(GetAsyncKeyState(VK_DOWN) & 0x8000) player->go_down();
@@ -103,10 +103,11 @@ void loop_maze(Window* canvas, Level* lvl, Player* player, int frameduration){
 	// If you collected nothing, just return to menu
 	if (player->collected_numbers.empty())
 		return;
-	pick_number(canvas, player->collected_numbers, frameduration, lvl->target);
+	// Otherwise, go to the calculation screen:
+	calc_screen(canvas, player->collected_numbers, frameduration, lvl->target);
 }
 
-void pick_number(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target){
+void calc_screen(Window* canvas, std::vector<int> collected_numbers, int frameduration, float target){
 	Sleep(200);
 	bool running = true;
 	int pick_order = 1;
@@ -125,7 +126,8 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 		
 		if(GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 			running = false;
-		
+			
+		// A switch to alternate between picking a number and picking an operator
 		switch(pick_order){
 			case 1:
 				if(GetAsyncKeyState(VK_LEFT) & 0x8000){
@@ -154,7 +156,7 @@ void pick_number(Window* canvas, std::vector<int> collected_numbers, int framedu
 				break;
 		}
 		
-		// When there are 3 elements in chosen_numb_ops, the player picked 2 numbers and an operator, so a calculation has to be made.
+		// When there are 3 elements in chosen_numb_ops, the player picked 2 numbers and an operator, so a calculation has to be made
 		if(chosen_numb_ops.size()==3)
 			canvas->calculator(chosen_numb_ops);
 		
